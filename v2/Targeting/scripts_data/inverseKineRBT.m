@@ -3,7 +3,7 @@ function [th] = inverseKineRBT(px,py,pz,phi)
 % th=[th1 th2 th3 th4]
 % Link Lengths
 %L1=2;L2=5;L3=4;L4=3;
-L1=.2;L2=.5;L3=.4;L4=.3;
+L1=0;L2=0.4011;L3=0.382;L4=0.256;
 %pz=-pz+L3;
 
 th1=atan2(py,px);
