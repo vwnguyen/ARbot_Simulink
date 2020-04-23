@@ -1,5 +1,6 @@
 load('footage_array.mat');
 box_dim1 = [.05 .05 .05];
+out_length = 0;
 %{
 Variables needed by the ARbot simulink file
 %}
