@@ -23,6 +23,19 @@ belt_w=1.1225;
 belt_spd=1;
 belt_in_offset=[1.4 0 0];
 
+
+box1_pos_offset = [1.146 -3.048 -1.4224];
+box1_angle_offset = [20 0 0];
+
+box2_pos_offset = [1.146 -3.175 -1.4732];
+box2_angle_offset = [20 0 0];
+
+arm_pos_offset = [1.14 -1.15 -.2575];
+arm_angle_offset = [0 0 90];
+
+box3_pos_offset = [0.629 -3.034 -1.275];
+box3_angle_offset = [20 0 0];
+
 % box parameters
 cube_d=.09; % 2inch cube
 cube_con_rsph=.003; % radius of contact sphere block and belt
