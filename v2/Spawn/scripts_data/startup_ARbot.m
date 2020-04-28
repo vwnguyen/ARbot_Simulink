@@ -1,6 +1,8 @@
 load('footage_array.mat');
 box_dim1 = [.05 .05 .05];
 out_length = 0;
+rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
+
 %{
 Variables needed by the ARbot simulink file
 %}
@@ -22,6 +24,8 @@ belt_h=.2;
 belt_w=1.1225;
 belt_spd=1;
 belt_in_offset=[1.4 0 0];
+
+
 
 
 box1_pos_offset = [1.146 -3.048 -1.4224];
