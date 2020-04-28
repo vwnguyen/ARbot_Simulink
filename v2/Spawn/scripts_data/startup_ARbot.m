@@ -30,11 +30,20 @@ box1_angle_offset = [20 0 0];
 box2_pos_offset = [1.146 -3.175 -1.4732];
 box2_angle_offset = [20 0 0];
 
+box3_pos_offset = [1.146 -3.302 -1.524];
+box3_angle_offset = [20 0 0];
+
+box4_pos_offset = [1.146 -3.429 -1.5748];
+box4_angle_offset = [20 0 0];
+
+box5_pos_offset = [1.146 -2.921 -1.3716];
+box5_angle_offset = [20 0 0];
+
+box6_pos_offset = [0.629 -3.034 -1.275];
+box6_angle_offset = [20 0 0];
+
 arm_pos_offset = [1.14 -1.15 -.2575];
 arm_angle_offset = [0 0 90];
-
-box3_pos_offset = [0.629 -3.034 -1.275];
-box3_angle_offset = [20 0 0];
 
 % box parameters
 cube_d=.09; % 2inch cube
