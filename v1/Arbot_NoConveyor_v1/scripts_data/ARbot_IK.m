@@ -9,6 +9,7 @@ eeBody.Mass = 0;
 eeBody.Inertia = [0 0 0 0 0 0];
 setFixedTransform(eeBody.Joint,trvec2tform([eeOffset 0 0]));
 addBody(rbot,eeBody,'L4');
+%%
 figure(1);
 axes=show(rbot);
 %% test forward kinematics

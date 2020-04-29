@@ -1,9 +1,9 @@
-function [th] = inverseKineRBT(px,py,pz,phi,L1,L2,L3,L4)
+function [th] = inverseKineRBT(px,py,pz,phi)
 % Solves IK problem and returns joint angle vector
 % th=[th1 th2 th3 th4]
 % Link Lengths
 %L1=2;L2=5;L3=4;L4=3;
-%L1=.2;L2=.5;L3=.4;L4=.3;
+L1=.2;L2=.5;L3=.4;L4=.3;
 %pz=-pz+L3;
 
 th1=atan2(py,px);

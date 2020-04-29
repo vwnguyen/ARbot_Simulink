@@ -14,10 +14,29 @@ temp = load('facilityIDs_30FPS_30s.mat');
 facility_data = temp.filtered_IDs;
 sample_time_30FPS = 1/30;
 
-
+rotation_matrix =[ 0     0     1;
+                  -1     0     0;
+                   0    -1     0];
+T_A_B = [ 0 0 0 0;
+  0 0 0 0;
+  0 0 0 0;
+  0 0 0 1;
+  ];
+% at the reference frame
+P_B = [0;0;0;1;];
+% rotations from frame to frame
+T_A_B(1:3,1:3) = rotation_matrix;
+% displacement from frame to frame
+P_A_BORG = [ 0.45; 0; 0.01];
+T_A_B(1:3,4) = P_A_BORG;
+P_A = T_A_B * P_B;
+angleInRadians = deg2rad(-90);
+ikSol = inverseKineRBT(P_A(1),P_A(2),P_A(3),angleInRadians)               
+               
 % two seconds to complete trajectory
 % second to arrive at via-point location
-th=traj6_v2(q0,qv,qf,2,1);                  % generate the trajectory
+% ikSol = inverseKineRBT();
+th=traj6_v2(q0,ikSol,qf,2,1);                  % generate the trajectory
 % conveyor belt parameters
 belt_l=2; %m
 belt_h=.02;
