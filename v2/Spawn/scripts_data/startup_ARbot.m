@@ -25,29 +25,33 @@ belt_w=1.1225;
 belt_spd=1;
 belt_in_offset=[1.4 0 0];
 
+box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 
-
-
+% vectors of xyz distance translation from world to box
 box1_pos_offset = [1.146 -3.048 -1.4224];
-box1_angle_offset = [20 0 0];
-
 box2_pos_offset = [1.146 -3.175 -1.4732];
-box2_angle_offset = [20 0 0];
-
 box3_pos_offset = [1.146 -3.302 -1.524];
-box3_angle_offset = [20 0 0];
-
 box4_pos_offset = [1.146 -3.429 -1.5748];
-box4_angle_offset = [20 0 0];
-
 box5_pos_offset = [1.146 -2.921 -1.3716];
-box5_angle_offset = [20 0 0];
-
 box6_pos_offset = [0.629 -3.034 -1.275];
-box6_angle_offset = [20 0 0];
+
+shelf_pos_offset = [1.7594 -1.015 -.2575];
+shelf_angle_offset = [90 180 90];
+
+guard1_pos_offset = [0.5148 .39 .192];
+guard1_angle_offset = [90 160 90];
+
+guard2_pos_offset = [1.6959 .39 .192];
+guard2_angle_offset = [90 160 90];
+
+bin_pos_offset = [2.1 -1.25 -1.25];
+bin_angle_offset = [90 0 0];
 
 arm_pos_offset = [1.14 -1.15 -.2575];
 arm_angle_offset = [0 0 90];
+
+belt_pos_offset = [1.135 -1.4 -.85];
+belt_angle_offset = [180 200 -90];
 
 % box parameters
 cube_d=.09; % 2inch cube
