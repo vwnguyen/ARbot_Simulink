@@ -46,20 +46,23 @@ box4_pos_offset = [1.146 -3.429 -1.5748];
 box5_pos_offset = [(cube_d/2 + 0.5213 ) (cube_d/2 + 0.6702 -0.2) box_z_offset];
 box6_pos_offset = [0 0 0];
 
-shelf_pos_offset = [1.7594 -1.015 -.2575];
-shelf_angle_offset = [90 180 90];
+shelf_pos_offset = [1.1811 1 -0.3255];
+shelf_angle_offset = [90 20 90];
 
-guard1_pos_offset = [0.5148 .39 .192];
-guard1_angle_offset = [90 160 90];
+guard1_pos_offset = [0 0 0];
+guard1_angle_offset = [270 0 90];
 
-guard2_pos_offset = [1.6959 .39 .192];
-guard2_angle_offset = [90 160 90];
+guard2_pos_offset = [1.1811 0 0];
+guard2_angle_offset = [270 0 90];
 
-bin_pos_offset = [2.1 -1.25 -1.25];
-bin_angle_offset = [90 0 0];
+bin_pos_offset = [1.52 1.4 .5];
+bin_angle_offset = [110 180 0];
 
-arm_pos_offset = [1.14 -1.15 -.2575];
-arm_angle_offset = [0 0 90];
+box_xyz_pos_offset = [.5588 1.15 -0.37];
+box_xyz_angle_offset = [160 0 90];
+
+% arm_pos_offset = [1.1811 1 -0.6];
+% arm_angle_offset = [90 20 90];
 
 belt_pos_offset = [1.135 -1.4 -.85];
 belt_angle_offset = [180 200 -90];
