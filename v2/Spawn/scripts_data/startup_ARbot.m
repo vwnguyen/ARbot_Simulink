@@ -1,4 +1,4 @@
-load('footage_array.mat');
+load('bbox_array.mat');
 box_dim1 = [.05 .05 .05];
 out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
@@ -37,13 +37,13 @@ camera_frame_dist = 3;  % meters away from catching line
 
 box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 
-box_z_offset = -0.145+cube_d/2;
+box_z_offset = -0.15+cube_d/2;
 % vectors of xyz distance translation from world to box
 box1_pos_offset = [1.146 -3.048 -1.4224];
 box2_pos_offset = [1.146 -3.175 -1.4732];
 box3_pos_offset = [1.146 -3.302 -1.524];
 box4_pos_offset = [1.146 -3.429 -1.5748];
-box5_pos_offset = [cube_d/2 -cube_d/2 box_z_offset];
+box5_pos_offset = [(cube_d/2 + 0.5213 ) (cube_d/2 + 0.6702 -0.2) box_z_offset];
 box6_pos_offset = [0 0 0];
 
 shelf_pos_offset = [1.7594 -1.015 -.2575];
