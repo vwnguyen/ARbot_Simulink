@@ -1,4 +1,4 @@
-load('bbox_array.mat');
+load('footage_v3_array.mat');
 box_dim1 = [.05 .05 .05];
 out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
@@ -29,7 +29,7 @@ th=traj6_v2(q0,qv,qf,2,1);                  % generate the trajectory
 belt_l=30;
 belt_h=.2;
 belt_w=1.1225;
-belt_spd=1;
+belt_spd=1.1295; % m/s
 belt_in_offset=[1.4 0 0];
 
 % camera frame parameters
@@ -39,12 +39,12 @@ box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 
 box_z_offset = -0.15+cube_d/2;
 % vectors of xyz distance translation from world to box
-box1_pos_offset = [1.146 -3.048 -1.4224];
-box2_pos_offset = [1.146 -3.175 -1.4732];
-box3_pos_offset = [1.146 -3.302 -1.524];
-box4_pos_offset = [1.146 -3.429 -1.5748];
-box5_pos_offset = [(cube_d/2 + 0.5213 ) (cube_d/2 + 0.6702 -0.2) box_z_offset];
-box6_pos_offset = [0 0 0];
+box1_pos_offset = [(cube_d/2 + (belt_w - 0.606314102578163) ) (cube_d/2 + (belt_w - 0.761613922548294) ) box_z_offset]; %time 0
+box2_pos_offset = [(cube_d/2 + (belt_w - 0.272408337676525) ) (cube_d/2 + (belt_w - 1.07917752695084) - (belt_spd*2.66666666666664) ) box_z_offset]; % time 2.667
+box3_pos_offset = [(cube_d/2 + (belt_w - 0.617604686427116) ) (cube_d/2 + (belt_w - 0.982776597929001) - (belt_spd*7.66666666666666) ) box_z_offset]; % time 7.667
+box4_pos_offset = [(cube_d/2 + (belt_w - 0.855067375230789) ) (cube_d/2 + (belt_w - 1.02983778786659) - (belt_spd*10.7333333333335)  ) box_z_offset]; % time 10.733
+box5_pos_offset = [(cube_d/2 + (belt_w - 0.683449123024940) ) (cube_d/2 + (belt_w - 0.107290405601263) - (belt_spd*16.2000000000004) ) box_z_offset]; % time 16.200
+
 
 shelf_pos_offset = [1.1811 1 -0.3255];
 shelf_angle_offset = [90 20 90];
