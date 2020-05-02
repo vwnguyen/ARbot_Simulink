@@ -30,6 +30,8 @@ floor_d=.05;
 %L3=.343m
 %L4=.150m
 %}
+clear
+clc
 
 % Modify for your own path %
 addpath('description\urdf');
