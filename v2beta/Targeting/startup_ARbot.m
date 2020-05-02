@@ -55,7 +55,7 @@ T_A_B = [ 0 0 0 0;
 P_A_BORG = [[0.4655];[0.5639];[ -0.2184]];
 
 % where at the catching line it should end effector go 
-P_B = [ 0; 0; 0; 1;];
+P_B = [ belt_w / 2; 0; 0; 1;];
 
 T_A_B(1:3,1:3) = base_to_catch_out;
 T_A_B(1:3,4) = P_A_BORG;
