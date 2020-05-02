@@ -18,7 +18,9 @@ axes.CameraPositionMode = 'auto';
 
 base_to_catch_out = [  0.0000    0.9397   -0.3420;
    -1.0000    0.0000         0;
-         0    0.3420    0.9397;];
+         0    0.3420    0.9397];
+
+rotation_matrix = base_to_catch_out;
      
 T_A_B = [ 0 0 0 0;
   0 0 0 0;
@@ -26,7 +28,7 @@ T_A_B = [ 0 0 0 0;
   0 0 0 1;
   ];
 
-P_A_BORG = [[0.3246];[0.5639];[ -0.2697]];
+P_A_BORG = [[0.4655];[0.5639];[ -0.2184]];
 
 % where at the catching line it should end effector go 
 P_B = [ 0; 0; 0; 1;];
