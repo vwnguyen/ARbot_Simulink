@@ -8,7 +8,7 @@ belt_w=1.1225;
 belt_spd=1;
 belt_in_offset=[1.4 0 0];
 
-catch_line_dist = belt_l*(3/4) - 0.1;
+catch_line_dist = belt_l*(3/4);
 
 % box parameters
 cube_d=.09; % 2inch cube
@@ -52,7 +52,7 @@ T_A_B = [ 0 0 0 0;
   0 0 0 1;
   ];
 
-P_A_BORG = [[0.4655];[0.5639];[ -0.2184]];
+P_A_BORG = [[0.5595];[0.5639];[  -0.1842]];
 
 % where at the catching line it should end effector go 
 P_B = [ belt_w / 2; 0; 0; 1;];
