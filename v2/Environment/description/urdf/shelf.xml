@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <SimscapeMultibodyImportXML version="2.0" xmlns="urn:mathworks:SimscapeMultibody:import" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<Created by="" on="04/20/20||13:02:05" using="Simscape Multibody Link Version 7.0" from="SolidWorks 26.3.0"/>
+<Created by="" on="05/02/20||21:28:05" using="Simscape Multibody Link Version 7.0" from="SolidWorks 26.3.0"/>
 <ModelUnits mass="kilogram" length="inch"/>
 <DataUnits mass="kilogram" length="meter"/>
-<RootAssembly name="shelf" uid="shelf" version="132">
+<RootAssembly name="shelf" uid="shelf" version="134">
 <AssemblyFile name="shelf.SLDASM" type="SolidWorks Assembly"/>
 <InstanceTree>
 <Instance name="shelf-1" uid="shelf-1" grounded="true" entityUid="shelf*:*Default">
@@ -19,13 +19,13 @@
 <Assemblies>
 </Assemblies>
 <Parts>
-<Part name="shelf" uid="shelf*:*Default" version="387">
+<Part name="shelf" uid="shelf*:*Default" version="394">
 <ModelUnits mass="kilogram" length="inch"/>
 <PartFile name="shelf.SLDPRT" type="SolidWorks Part"/>
 <MassProperties>
-<Mass>40.96464297364237</Mass>
-<CenterOfMass>0.23758665013349234 0.042036183864333006 -0.62230000000000008</CenterOfMass>
-<Inertia>6.4027978949990292 7.0610747149853648 0.76225902994838779 0 1.1943033272897616e-15 -0.038531728626613589</Inertia>
+<Mass>35.852910818595255</Mass>
+<CenterOfMass>0.26690632036584444 0.043400183157497656 -0.62229999999999996</CenterOfMass>
+<Inertia>5.7200773732562444 6.1320103691518018 0.51118304896183198 0 0 -0.026999230424158041</Inertia>
 </MassProperties>
 <GeometryFile name="shelf_Default_sldprt.STEP" type="STEP"/>
 <VisualProperties>
