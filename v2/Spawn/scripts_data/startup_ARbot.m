@@ -4,6 +4,11 @@ out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
 
 % box parameters
+box1_dim = [0.170036163091660 0.182921404933929 0.0254/2];
+box2_dim = [0.184457923913002 0.172139129447937 0.0254/2];
+box3_dim = [0.055932275152206 0.103630726337433 0.0254/2];
+box4_dim = [0.110056496906281 0.147900141429901 0.0254/2];
+box5_dim = [0.121905452680588 0.165243265843391 0.0254/2];
 cube_d =.09; % 2inch cube
 cube_con_rsph=.003; % radius of contact sphere block and belt
 
@@ -39,11 +44,11 @@ box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 
 box_z_offset = -0.15+cube_d/2;
 % vectors of xyz distance translation from world to box
-box1_pos_offset = [(cube_d/2 + (belt_w - 0.606314102578163) ) (cube_d/2 + (belt_w - 0.761613922548294) ) box_z_offset]; %time 0
-box2_pos_offset = [(cube_d/2 + (belt_w - 0.272408337676525) ) (cube_d/2 + (belt_w - 1.07917752695084) - (belt_spd*2.66666666666664) ) box_z_offset]; % time 2.667
-box3_pos_offset = [(cube_d/2 + (belt_w - 0.617604686427116) ) (cube_d/2 + (belt_w - 0.982776597929001) - (belt_spd*7.66666666666666) ) box_z_offset]; % time 7.667
-box4_pos_offset = [(cube_d/2 + (belt_w - 0.855067375230789) ) (cube_d/2 + (belt_w - 1.02983778786659) - (belt_spd*10.7333333333335)  ) box_z_offset]; % time 10.733
-box5_pos_offset = [(cube_d/2 + (belt_w - 0.683449123024940) ) (cube_d/2 + (belt_w - 0.107290405601263) - (belt_spd*16.2000000000004) ) box_z_offset]; % time 16.200
+box1_pos_offset = [(box1_dim(1)/2 + (belt_w - 0.606314102578163) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset]; %time 0
+box2_pos_offset = [(box2_dim(1)/2 + (belt_w - 0.272408337676525) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.2913) - (belt_spd*(2.66666666666664-0.116788)) ) box_z_offset]; % time 2.667
+box3_pos_offset = [(box3_dim(1)/2 + (belt_w - 0.617604686427116) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001) - (belt_spd*(7.66666666666666-0.116788)) ) box_z_offset]; % time 7.667
+box4_pos_offset = [(box4_dim(1)/2 + (belt_w - 0.855067375230789) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659) - (belt_spd*(10.7333333333335-0.116788))  ) box_z_offset]; % time 10.733
+box5_pos_offset = [(box5_dim(1)/2 + (belt_w - 0.683449123024940) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4276) - (belt_spd*(16.2000000000004)) ) box_z_offset]; % time 16.200
 
 
 shelf_pos_offset = [1.1811 1 -0.3255];
