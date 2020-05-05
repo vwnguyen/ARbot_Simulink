@@ -32,13 +32,13 @@ belt_spd=1.1295; % m/s
 belt_in_offset=[1.4 0 0];
 
 % camera frame parameters
-camera_frame_dist = 3;  % meters away from catching line
+camera_frame_dist = 4;  % meters away from catching line
 catch_line_dist = belt_l * 9.8/10;
 
 %% box parameters
 box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
-box_z_offset = -0.15+cube_d/2;
-% box_z_offset = 0.0254/2;
+% box_z_offset = -0.15+cube_d/2;
+box_z_offset = 0;
 
 
 % position vectors of the box with reference to the camera frame
@@ -94,7 +94,8 @@ max_Catching_Time = 2;
 % th=traj6_v2(q0,qv,qf,2,1);                  % generate the trajectory
 testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
 % time to execute the trajectories
-% testing_array = testing_array + timeToCatchLine - max_Catching_Time/2;       
-testing_array = [ 2.68 5.34 10.22 13.36 18.02 ] - max_Catching_Time/2 - 0.1; 
+% testing_array = testing_array + timeToCatchLine - max_Catching_Time/2;
+inherent_Time_Delay = 0.05
+testing_array = [ 2.68 5.34 10.22 13.36 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
 % ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)
