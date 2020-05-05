@@ -20,6 +20,7 @@ floor_d=.05;
 
 % pixels to meters
 pix_2_m = 0.21875*0.0254; % pix->in->m
+inch = 0.0254;
 %{
 Variables needed by the ARbot simulink file
 %}
@@ -32,14 +33,19 @@ belt_spd=1.1295; % m/s
 belt_in_offset=[1.4 0 0];
 
 % camera frame parameters
-camera_frame_dist = 4;  % meters away from catching line
-catch_line_dist = belt_l * 9.8/10;
-
+% camera_frame_dist = 3;  % meters away from catching line
+% change this to alter the catching line relative to the start of the 
+% conveyor belt
+catch_line_dist = belt_l * 9.8/10 - 0.1;
+cam_frame_to_catch_line = catch_line_dist - 25.3; % constant is obtained from 
+                                                  % transform sensor
+camera_frame_dist = cam_frame_to_catch_line;
+                                                  
 %% box parameters
 box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 % box_z_offset = -0.15+cube_d/2;
-box_z_offset = 0;
-
+box_z_offset = -0.0427 + inch/2;
+% 0.0254 is an inch
 
 % position vectors of the box with reference to the camera frame
 box1_pos_offset = [(box1_dim(1)/2 + (belt_w - 0.606314102578163) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset ]; %time 0
@@ -71,7 +77,7 @@ belt_angle_offset = [180 200 -90];
 % from base to camera
 
 % camera_frame_dist is the distance from the camera to the catching line
-P_B_CORG = [  -2.2596;  0.5639; -1.2102;];
+P_B_CORG = [-3.2094;  0.5588;  -1.5619;];
 robot_base_to_camera_frame_rot = [  0.0000    0.9397   -0.3420;
                                     -1.0000    0.0000         0;
                                     0    0.3420    0.9397;];
@@ -89,13 +95,15 @@ P_C(:,4) = 1;
 eeOrientation = deg2rad(-70);
 max_Catching_Time = 2;
 
+[P_B  distanceToCatchLine timeToCatchLine ikSol] = ...
+mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
+max_Catching_Time,eeOrientation,cam_frame_to_catch_line)
 
-[P_B  distanceToCatchLine timeToCatchLine ikSol] = mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot,max_Catching_Time,eeOrientation,camera_frame_dist)
 % th=traj6_v2(q0,qv,qf,2,1);                  % generate the trajectory
 testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
 % time to execute the trajectories
 % testing_array = testing_array + timeToCatchLine - max_Catching_Time/2;
-inherent_Time_Delay = 0.05
+inherent_Time_Delay = 0.05;
 testing_array = [ 2.68 5.34 10.22 13.36 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
 % ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)
