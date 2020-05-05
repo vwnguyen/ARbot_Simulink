@@ -10,7 +10,7 @@
 % Outputs: 
 % catching coordinates = an array with time of arrival
 
-function [P_B  distanceToCatchLine timeToCatchLine ikSol] = mapToCatchLineSim(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch)
+function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = mapToCatchLineSim(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch)
 
     target_Size = size(P_C);
     T_B_C = [ 0 0 0 0;
@@ -29,7 +29,7 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol] = mapToCatchLineSim(P_
         timeToCatchLine(i) = distanceToCatchLine(i) / belt_rate; 
         
         % physically move the target to the catching line
-        P_C(:,2) = P_C(:,2) +  dist_To_Catch;
+        P_C(i,2) = P_C(i,2) + distanceToCatchLine(i);
         
         P_B(i,:) = T_B_C * P_C(i,:).'; % vector from the base of the robot to target
         % ikSol = inverseKineRBT(P_B(i,1),P_B(i,2) ,P_B(i,3),eeOrientation);

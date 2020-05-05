@@ -36,24 +36,23 @@ belt_in_offset=[1.4 0 0];
 % camera_frame_dist = 3;  % meters away from catching line
 % change this to alter the catching line relative to the start of the 
 % conveyor belt
-catch_line_dist = belt_l * 9.8/10 - 0.1;
+catch_line_dist = belt_l * 9.7/10;
 cam_frame_to_catch_line = catch_line_dist - 25.3; % constant is obtained from 
                                                   % transform sensor
-camera_frame_dist = cam_frame_to_catch_line;
+camera_frame_dist = 3;
                                                   
 %% box parameters
 box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 % box_z_offset = -0.15+cube_d/2;
-box_z_offset = -0.0427 + inch/2;
+box_z_offset = -0.1547 + inch/2;
 % 0.0254 is an inch
 
 % position vectors of the box with reference to the camera frame
 box1_pos_offset = [(box1_dim(1)/2 + (belt_w - 0.606314102578163) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset ]; %time 0
-box2_pos_offset = [(box2_dim(1)/2 + (belt_w - 0.272408337676525) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.4232) - (belt_spd*(2.66666666666664)) ) box_z_offset  ]; % time 2.667
-box3_pos_offset = [(box3_dim(1)/2 + (belt_w - 0.617604686427116) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4578) - (belt_spd*(7.66666666666666)) ) box_z_offset ]; % time 7.667
-box4_pos_offset = [(box4_dim(1)/2 + (belt_w - 0.855067375230789) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659 + 0.4359) - (belt_spd*(10.7333333333335))) box_z_offset ]; % time 10.733
-box5_pos_offset = [(box5_dim(1)/2 + (belt_w - 0.683449123024940) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4276) - (belt_spd*(16.2000000000004)) ) box_z_offset ]; % time 16.200
-
+box2_pos_offset = [(box2_dim(1)/2 + (belt_w - 0.272408337676525) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.4226) - (belt_spd*(2.66666666666664)) ) box_z_offset ]; % time 2.667
+box3_pos_offset = [(box3_dim(1)/2 + (belt_w - 0.617604686427116) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4572) - (belt_spd*(7.66666666666666)) ) box_z_offset ]; % time 7.667
+box4_pos_offset = [(box4_dim(1)/2 + (belt_w - 0.855067375230789) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659 + 0.4353) - (belt_spd*(10.7333333333335))) box_z_offset ]; % time 10.733
+box5_pos_offset = [(box5_dim(1)/2 + (belt_w - 0.683449123024940) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4270) - (belt_spd*(16.2000000000004)) ) box_z_offset ]; % time 16.200
 
 shelf_pos_offset = [1.1811 1 -0.3255];
 shelf_angle_offset = [90 20 90];
@@ -77,17 +76,18 @@ belt_angle_offset = [180 200 -90];
 % from base to camera
 
 % camera_frame_dist is the distance from the camera to the catching line
-P_B_CORG = [-3.2094;  0.5588;  -1.5619;];
+P_B_CORG = [-2.4576;  0.5588;  -1.2882;];
 robot_base_to_camera_frame_rot = [  0.0000    0.9397   -0.3420;
                                     -1.0000    0.0000         0;
                                     0    0.3420    0.9397;];
-P_C =           [ box1_pos_offset; 
+P_C =           [box1_pos_offset; 
                  box2_pos_offset; 
                  box3_pos_offset;
                  box4_pos_offset;
                  box5_pos_offset];
              
 % append a column of ones for matrix transformation calculations
+P_C(:,3) = inch/2;  
 P_C(:,4) = 1;             
       
 %% Test Array
@@ -95,15 +95,15 @@ P_C(:,4) = 1;
 eeOrientation = deg2rad(-70);
 max_Catching_Time = 2;
 
-[P_B  distanceToCatchLine timeToCatchLine ikSol] = ...
+[P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-max_Catching_Time,eeOrientation,cam_frame_to_catch_line)
+max_Catching_Time,eeOrientation,camera_frame_dist);
 
 % th=traj6_v2(q0,qv,qf,2,1);                  % generate the trajectory
 testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
 % time to execute the trajectories
 % testing_array = testing_array + timeToCatchLine - max_Catching_Time/2;
-inherent_Time_Delay = 0.05;
-testing_array = [ 2.68 5.34 10.22 13.36 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
+inherent_Time_Delay = 0.2;
+testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
 % ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)
