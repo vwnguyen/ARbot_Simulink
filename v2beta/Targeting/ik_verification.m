@@ -13,7 +13,7 @@ newPose(2).JointPosition = jointAngles(2);
 newPose(3).JointPosition = jointAngles(3);
 newPose(4).JointPosition = jointAngles(4);
 figure(1)
-axes = show(robot,newPose);
+axes = show(robot,robot.homeConfiguration);
 axes.CameraPositionMode = 'auto';
 
 base_to_catch_out = [  0.0000    0.9397   -0.3420;
