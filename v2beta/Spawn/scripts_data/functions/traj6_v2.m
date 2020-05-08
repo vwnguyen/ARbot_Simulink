@@ -16,7 +16,7 @@ if(tf<=1)
 else
     dt=0.1;
 end
-t=0:tv/12:tf;
+t=0:tv/50:tf;
 %t=[1:.1:10];length(t)
 %% Path for joint 1
 a10=q0(1);
