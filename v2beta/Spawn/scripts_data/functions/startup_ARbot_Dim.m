@@ -63,8 +63,8 @@ guard1_angle_offset = [270 0 90];
 guard2_pos_offset = [1.1811 0 0];
 guard2_angle_offset = [270 0 90];
 
-bin_pos_offset = [1.52 1.4 .5];
-bin_angle_offset = [110 180 0];
+chute_pos_offset = [1.21285 .7 .1];
+chute_angle_offset = [70 180 180];
 
 box_xyz_pos_offset = [.5588 1.15 -0.37];
 box_xyz_angle_offset = [160 0 90];
