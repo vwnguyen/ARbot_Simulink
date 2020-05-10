@@ -1,5 +1,6 @@
 % attempt to find the catching line for the robot
 % loads the robot and plots its path along a set trajectory
+close all 
 environment = 'C:\Users\Viet\Desktop\git_repos\ARbot_Simulink\v2beta\Environment\PlantModel'
 addpath(genpath(environment));
 % add the end effector
@@ -28,9 +29,14 @@ T_A_B = [ 0 0 0 0;
   0 0 0 1;
   ];
 
-%% old catching line
+%% old catching line ( NOT FLIPPED ) 
 % P_A_BORG = [[0.4655];[0.5639];[ -0.2184]];
-P_A_BORG = [ 0.3615; 0.5588; -0.2622; ]; %closer to robot
+% P_A_BORG = [ -0.3615; -0.5588; -0.2622; ]; %closer to robot
+
+% FLIP X AND Y TO ACCOUNT FOR MATLAB REFERENCE FRAME
+P_A_BORG = [[-0.5588];[-0.5024];[  -0.2109]]; % current catching line
+% P_A_BORG = [[-0.5639];[-0.4655];;[ -0.2184]]; % furthest from the robot
+% P_A_BORG = [ -0.5588; -0.3615; -0.2622; ]; %closer to robot
 
 % where at the catching line it should end effector go 
 P_B = [ 0; 0; 0; 1;];
@@ -98,7 +104,7 @@ end
 % show the robot and the mapped points
 
 %% Map End Effector positions to Catching Line (P_B)
-P_B_AORG = [ 0.5588;  -0.2500;  0.3700; ]; %closer to robot % reverse of atob
+P_B_AORG = -P_A_BORG; %closer to robot % reverse of atob
 T_A_B_inv = inv(T_A_B);
 rotation_matrix = [ 0.0000   -1.0000         0;
                     0.9397    0.0000    0.3420;
@@ -114,63 +120,37 @@ T_B_A(1:3,1:3) = rotation_matrix; % reverse of A to B
 T_B_A(1:3,4) = P_B_AORG;
 P_B = T_B_A * P_A; % vector from the base of the robot to the target
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% base_to_catch_out = [  0.0000    0.9397   -0.3420;
-%    -1.0000    0.0000         0;
-%          0    0.3420    0.9397];
-% 
-% rotation_matrix = base_to_catch_out;
-%      
-% T_A_B = [ 0 0 0 0;
-%   0 0 0 0;
-%   0 0 0 0;
-%   0 0 0 1;
-%   ];
-% 
-% P_A_BORG = [ 0.3615; 0.5588; -0.2622; ]; %closer to robot
-% 
-% % where at the catching line it should end effector go 
-% P_B = [ 0; 0; 0; 1;];
-% 
-% T_A_B(1:3,1:3) = base_to_catch_out;
-% T_A_B(1:3,4) = P_A_BORG;
-% P_A = T_A_B * P_B; % vector from the base of the robot to the target
-
-
-
-
 p_b_mapped = [];
 end_effector_pos(:,4) = ones(length(end_effector_pos),1); 
 catching_line_matrix = [];
 for i = 1:length(end_effector_pos)
     p_b_mapped = T_A_B_inv * end_effector_pos(i,:)';
-    % p_b_mapped(3) = 0;
+    p_b_mapped(3) = 0;
     catching_line_matrix(i,:) = p_b_mapped;
 end
 
 %% plot the mapped points for confirmation
 
-figure(3);
+figure(2);
 axes = show(robot,robot.homeConfiguration);
 exampleHelperPlotWaypoints(wayPoints);
 axes.CameraPositionMode = 'auto';
 hold on
 h3 = animatedline('LineWidth',5,'Color','b','Marker','+');
 for point = 1:length(catching_line_matrix)
-    
     verified_arc(point,:) = T_A_B * catching_line_matrix(point,:)'
-    
     addpoints(h3,verified_arc(point,1),verified_arc(point,2),verified_arc(point,3));
     drawnow
     xlabel('X')
     ylabel('Y')
     zlabel('Z') 
 end
-
-
 %% Compute the IK Look-Up Matrix
-
+figure(3);
+axes = show(robot,robot.homeConfiguration);
+hold on
+exampleHelperPlotWaypoints(wayPoints);
+axes.CameraPositionMode = 'auto';
 IK_matrix = [];
 wayPoint_loc = [];
 for i = 1:length(catching_line_matrix)
@@ -179,8 +159,18 @@ for i = 1:length(catching_line_matrix)
     % get joint angles for each point
     IK_matrix(i,:) = inverseKineRBT(wayPoint_loc(1),wayPoint_loc(2),wayPoint_loc(3),angleInRadians);
 end
-
 save('IK_look_up_array.mat', 'IK_matrix', 'catching_line_matrix');
+% show robot solving for catching arc positions using IK Look-Up Matrix
+for i = 1:length(catching_line_matrix)
+    newPose(1).JointPosition = IK_matrix(i,1);
+    newPose(2).JointPosition = IK_matrix(i,2);
+    newPose(3).JointPosition = IK_matrix(i,3);
+    newPose(4).JointPosition = IK_matrix(i,4);
+    show(robot,newPose, 'PreservePlot', true,'Frames','off');
+    % robot.plot(theta(idx));
+    pause(0.01)
+end
+
 
 %% Functions
 

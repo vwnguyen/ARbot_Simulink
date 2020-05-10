@@ -36,9 +36,9 @@ belt_in_offset=[1.4 0 0];
 % camera_frame_dist = 3;  % meters away from catching line
 % change this to alter the catching line relative to the start of the 
 % conveyor belt
-catch_line_dist = belt_l * 9.7/10;
-cam_frame_to_catch_line = catch_line_dist - 25.3; % constant is obtained from 
-                                                  % transform sensor
+catch_line_dist = belt_l * 9.75/10;
+cam_frame_to_catch_line = catch_line_dist - 26.4; % constant is obtained from 
+%                                                   % transform sensor
 camera_frame_dist = 3;
                                                   
 %% box parameters
@@ -75,11 +75,11 @@ belt_angle_offset = [180 200 -90];
 % joint configurations
 % from base to camera
 
-% camera_frame_dist is the distance from the camera to the catching line
-P_B_CORG = [-2.4576;  0.5588;  -1.2882;];
-robot_base_to_camera_frame_rot = [  0.0000    0.9397   -0.3420;
-                                    -1.0000    0.0000         0;
-                                    0    0.3420    0.9397;];
+% camera_frame_dist is the distance from the camera to the c
+P_B_CORG = [  -2.3167;     0.5588;    -1.2369;];
+robot_base_to_camera_frame_rot = [   0.0000    0.9397   -0.3420;
+                                   -1.0000    0.0000         0;
+                                         0    0.3420    0.9397;];
 P_C =           [box1_pos_offset; 
                  box2_pos_offset; 
                  box3_pos_offset;
