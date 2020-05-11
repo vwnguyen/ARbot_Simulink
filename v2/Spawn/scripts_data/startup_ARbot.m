@@ -46,7 +46,7 @@ box_z_offset = -0.15+cube_d/2;
 % vectors of xyz distance translation from world to box
 box1_pos_offset = [(box1_dim(1)/2 + (belt_w - 0.606314102578163) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset]; %time 0
 box2_pos_offset = [(box2_dim(1)/2 + (belt_w - 0.272408337676525) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.4232) - (belt_spd*(2.66666666666664)) ) box_z_offset]; % time 2.667
-box3_pos_offset = [(box3_dim(1)/2 + (belt_w - 0.617604686427116) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4578) - (belt_spd*(7.66666666666666)) ) box_z_offset]; % time 7.667
+box3_pos_offset = [(box3_dim(1)/2 + (belt_w - box3_dim(1))) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4578) - (belt_spd*(7.66666666666666)) ) box_z_offset]; % time 7.667
 box4_pos_offset = [(box4_dim(1)/2 + (belt_w - 0.855067375230789) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659 + 0.4359) - (belt_spd*(10.7333333333335))) box_z_offset]; % time 10.733
 box5_pos_offset = [(box5_dim(1)/2 + (belt_w - 0.683449123024940) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4276) - (belt_spd*(16.2000000000004)) ) box_z_offset]; % time 16.200
 
