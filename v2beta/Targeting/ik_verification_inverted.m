@@ -7,7 +7,6 @@ addpath(genpath(environment));
 robot=importrobot('arbot_betav1.urdf');
 % load robot
 newPose = robot.randomConfiguration;
-
 jointAngles = ikSol;
 newPose(1).JointPosition = jointAngles(1);
 newPose(2).JointPosition = jointAngles(2);
@@ -20,7 +19,7 @@ axes.CameraPositionMode = 'auto';
 base_to_catch_out = [  0.0000    0.9397   -0.3420;
    -1.0000    0.0000         0;
          0    0.3420    0.9397];
-
+ROTZ = rotz( 90 ); 
 rotation_matrix = base_to_catch_out;
      
 T_A_B = [ 0 0 0 0;
@@ -34,18 +33,17 @@ T_A_B = [ 0 0 0 0;
 % P_A_BORG = [ -0.3615; -0.5588; -0.2622; ]; %closer to robot
 
 % FLIP X AND Y TO ACCOUNT FOR MATLAB REFERENCE FRAME
-P_A_BORG = [[-0.5588];[-0.5024];[  -0.2109]]; % current catching line
 % P_A_BORG = [[-0.5639];[-0.4655];;[ -0.2184]]; % furthest from the robot
-% P_A_BORG = [ -0.5588; -0.3615; -0.2622; ]; %closer to robot
+P_A_BORG = [[-0.5588];[-0.5024];[  -0.2109]]; % middle catch line, use 
+% the midpoint here for the middle of the arc
+% P_A_BORG = [ -0.5588; -0.3615; -0.2622; ]; %closer to robot use these
+% corners for the end point
 
 % where at the catching line it should end effector go 
 P_B = [ 0; 0; 0; 1;];
-
 T_A_B(1:3,1:3) = base_to_catch_out;
 T_A_B(1:3,4) = P_A_BORG;
 P_A = T_A_B * P_B; % vector from the base of the robot to the target
-
-
 angleInRadians = deg2rad(-70);
 
 % get joint angles for each point
@@ -69,6 +67,11 @@ hold on
 h1 = animatedline('LineWidth',5,'Color','r');
 pos = [];
 end_effector_pos = [];
+%% generate arc from the corner and midpoints
+
+mdpt = load('P_mid','P_mid');
+L_corner = load('P_end','P_end');
+
 %% Show the robot's movement
 figure(1);
 for idx = 1:size(theta,1)
@@ -173,6 +176,13 @@ end
 
 
 %% Functions
+
+function rot_z = rotz(ang)
+
+    rot_z = [ cosd(ang) -sind(ang) 0;
+    sin(ang) cos(ang) 0 ;
+    0 0 1;];
+end
 
 function P_mid = midpoint(P1,P2)
     P_mid(1) = (P1(1) + P2(1)) / 2;

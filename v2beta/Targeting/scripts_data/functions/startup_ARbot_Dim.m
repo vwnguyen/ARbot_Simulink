@@ -36,7 +36,7 @@ belt_in_offset=[1.4 0 0];
 % camera_frame_dist = 3;  % meters away from catching line
 % change this to alter the catching line relative to the start of the 
 % conveyor belt
-catch_line_dist = belt_l * 9.75/10;
+catch_line_dist = belt_l * 9.7/10;
 cam_frame_to_catch_line = catch_line_dist - 26.4; % constant is obtained from 
 %                                                   % transform sensor
 camera_frame_dist = 3;
