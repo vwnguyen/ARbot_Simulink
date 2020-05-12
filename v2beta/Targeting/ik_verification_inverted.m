@@ -33,10 +33,12 @@ T_A_B = [ 0 0 0 0;
 % P_A_BORG = [ -0.3615; -0.5588; -0.2622; ]; %closer to robot
 
 % FLIP X AND Y TO ACCOUNT FOR MATLAB REFERENCE FRAME
-% P_A_BORG = [[-0.5639];[-0.4655];;[ -0.2184]]; % furthest from the robot
-P_A_BORG = [[-0.5588];[-0.5024];[  -0.2109]]; % middle catch line, use 
-% the midpoint here for the middle of the arc
+% P_A_BORG = [ -0.6434; -0.5588; -0.1596 ]; % furthest from the robot 9.8 
+% P_A_BORG = [[-0.5639];[-0.4655];;[ -0.2184]]; % 2nd furthest 9.75
+% P_A_BORG = [[-0.5588];[-0.5024];[  -0.2109]]; % middle catch line, 
 % P_A_BORG = [ -0.5588; -0.3615; -0.2622; ]; %closer to robot use these
+P_A_BORG = [-0.5588; -0.2205;-0.3135;]; % closest as possible to robot 9.65
+
 % corners for the end point
 
 % where at the catching line it should end effector go 
@@ -128,7 +130,7 @@ end_effector_pos(:,4) = ones(length(end_effector_pos),1);
 catching_line_matrix = [];
 for i = 1:length(end_effector_pos)
     p_b_mapped = T_A_B_inv * end_effector_pos(i,:)';
-    p_b_mapped(3) = 0;
+    % p_b_mapped(3) = 0;
     catching_line_matrix(i,:) = p_b_mapped;
 end
 
