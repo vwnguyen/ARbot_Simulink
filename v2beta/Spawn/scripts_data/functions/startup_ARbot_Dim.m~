@@ -48,7 +48,7 @@ box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 box_z_offset = -0.1547 + inch/2;
 % 0.0254 is an inch
 
-box_positions = correct_positions(box_positions, box1_dim, box2_dim, box3_dim, box4_dim, box5_dim);
+box_positions = correct_positions(box_positions, box1_dim, box2_dim, box3_dim, box4_dim, box5_dim)
 
 % position vectors of the box with reference to the camera frame
 box1_pos_offset = [(box1_dim(1)/2 + box_positions(1,1) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset ]; %time 0
@@ -121,17 +121,16 @@ function final_positions = correct_positions(positions, box1, box2, box3, box4, 
     if positions(1,1) > (width - box1(1)/2)
         positions(1,1) = positions(1,1)-box1(1)/2;
     end
-    if positions(2,1) > (width - box2(1)/2)
-        positions(2,1) = positions(2,1)-box2(1)/2;
+    if positions(1,2) > (width - box1(2)/2)
+        positions(1,1) = positions(1,1)-box1(1)/2;
     end
-    if positions(3,1) > (width - box3(1)/2)
-        positions(3,1) = positions(3,1)-box3(1)/2;
+    if positions(1,1) > (width - box1(1)/2)
+        positions(1,1) = positions(1,1)-box1(1)/2;
     end
-    if positions(4,1) > (width - box4(1)/2)
-        positions(4,1) = positions(4,1)-box4(1)/2;
+    if positions(1,1) > (width - box1(1)/2)
+        positions(1,1) = positions(1,1)-box1(1)/2;
     end
-    if positions(5,1) > (width - box5(1)/2)
-        positions(5,1) = positions(5,1)-box5(1)/2;
+    if positions(1,1) > (width - box1(1)/2)
+        positions(1,1) = positions(1,1)-box1(1)/2;
     end
-    final_positions = positions;
 end
