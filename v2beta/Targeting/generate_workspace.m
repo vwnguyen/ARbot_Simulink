@@ -28,23 +28,26 @@ T_A_B = [ 0 0 0 0;
 
 %% generate arc from the corner and midpoints
 
-mdpt = load('9.8_mid.mat');
-L_corner = load('9.65_end.mat');
 
-mid = mdpt.P_mid;
-corn = L_corner.P_end;
-L_corn = [ corn(1) corn(2)  corn(3)];
-R_corn = [ -corn(1) corn(2)  corn(3)];
-wayPoints = [ corn(1) corn(2)  corn(3) ;
-   -corn(1)  corn(2)  corn(3) ;
-      mid  ] ;
+corn = P_A_BORG_65;
+L_corn = P_A_BORG_65;
+R_corn = [ -P_A_BORG_65(1) P_A_BORG_65(2)  P_A_BORG_65(3)];
+
+wayPoints = [L_corn ;
+       R_corn ;
+      P_mid_8;
+      P_mid_9;
+     % higher_mid;
+      ] ;
 % [theta theta_dot theta_ddot] = traj6_v2(ikSolStart,ikSolMid,ikSolEnd,2,1);
 exampleHelperPlotWaypoints(wayPoints)
 hold on
 
 ikSolStart = inverseKineRBT(L_corn(1),L_corn(2),L_corn(3),eeOrientation);
-ikSolMid = inverseKineRBT(R_corn(1),R_corn(2),R_corn(3),eeOrientation);
-ikSolEnd = inverseKineRBT(mid(1),mid(2),mid(3),eeOrientation);
+ikSolEnd = inverseKineRBT(R_corn(1),R_corn(2),R_corn(3),eeOrientation);
+ikSolMid = inverseKineRBT(P_mid_8(1),P_mid_8(2),P_mid_8(3),eeOrientation);
+ikSolHigherMid = inverseKineRBT(P_mid_9(1),P_mid_9(2),P_mid_9(3),eeOrientation);
+
 
 %% show robot attaining defined waypoints 
 newPose(1).JointPosition = ikSolStart(1);
@@ -68,7 +71,7 @@ show(robot,newPose, 'PreservePlot', true,'Frames','off');
 
 [center,rad,v1,v2] = circlefit3d(wayPoints(1,:),wayPoints(2,:),wayPoints(3,:));
 idx = 1;
-for i=0.5:0.5:361
+for i=1:1:361
     a = i/180*pi;
     x = center(:,1)+sin(a)*rad.*v1(:,1)+cos(a)*rad.*v2(:,1);
     y = center(:,2)+sin(a)*rad.*v1(:,2)+cos(a)*rad.*v2(:,2);
@@ -105,10 +108,11 @@ for i=1:length(indices_of_workspace)
     y = corrected_workspace(i,2);
     z = corrected_workspace(i,3);
     plot3(x,y,z,'c.');
+    pause(0.01);
     idx = idx + 1;
 end
 
-%% FLIP X AND Y TO ACCOUNT FOR MATLAB REFERENCE FRAME
+%% plot filtered (in front of robot)
 P_A_BORG = [[0];[0];[0];]; % middle catch line, use 
 P_B = [];
 P_A = [];
@@ -124,10 +128,11 @@ for i=1:length(P_A)
     y = P_A(i,2);
     z = P_A(i,3);
     plot3(x,y,z,'b.');
+    pause(0.01);
     idx = idx + 1;
 end
-%%
 
+figure(1)
 ikLookup = [];
 for i = 1:size(P_A,1)
     [theta] = inverseKineRBT(filtered_workspace(i,1),filtered_workspace(i,2),filtered_workspace(i,3),eeOrientation);
@@ -139,14 +144,68 @@ for i = 1:size(P_A,1)
     tform = getTransform(robot,newPose,'L4');
     show(robot,newPose, 'PreservePlot', true,'Frames','off');
     hold on
+    pause(0.01);
     % robot.plot(theta(idx));
-    pause(0.01)
 end
-
-%% save workspace in terms of 3D points and save the ik solutions
-
-save('ikLookup.mat','ikLookup');
-save('ARbot_workspace.mat','corrected_workspace');
+hold off
+% %% plot corrected, to side of robot
+% figure(2)
+% ikLookup = [];
+% for i = 1:size(P_A,1)
+%     [theta] = inverseKineRBT(corrected_workspace(i,1),corrected_workspace(i,2),corrected_workspace(i,3),eeOrientation);
+%     ikLookup(i,:) = theta;
+%     newPose(1).JointPosition = theta(1);
+%     newPose(2).JointPosition = theta(2);
+%     newPose(3).JointPosition = theta(3);
+%     newPose(4).JointPosition = theta(4);
+%     tform = getTransform(robot,newPose,'L4');
+%     show(robot,newPose, 'PreservePlot', true,'Frames','off');
+%     hold on
+%     pause(0.01);
+%     % robot.plot(theta(idx));
+% end
+% hold off
+% %% plot to other side of robot 180 deg Z rot
+% figure(3)
+% 
+% P_A_BORG = [[0];[0];[0];]; % middle catch line, use 
+% P_B = [];
+% P_A = [];
+% for i=1:length(filtered_workspace)
+%     P_B(i,:) = [ filtered_workspace(i,1) filtered_workspace(i,2) filtered_workspace(i,3) 1];
+%     T_A_B(1:3,1:3) = rotz_d(180);
+%     T_A_B(1:3,4) = P_A_BORG;
+%     P_A(i,:) = T_A_B * P_B(i,:).';
+% end
+% 
+% for i=1:length(P_A)
+%     x = P_A(i,1);
+%     y = P_A(i,2);
+%     z = P_A(i,3);
+%     plot3(x,y,z,'b.');
+%     idx = idx + 1;
+% end
+% 
+% figure(3)
+% ikLookup = [];
+% for i = 1:size(P_A,1)
+%     [theta] = inverseKineRBT(P_A(i,1),P_A(i,2),P_A(i,3),eeOrientation);
+%     ikLookup(i,:) = theta;
+%     newPose(1).JointPosition = theta(1);
+%     newPose(2).JointPosition = theta(2);
+%     newPose(3).JointPosition = theta(3);
+%     newPose(4).JointPosition = theta(4);
+%     tform = getTransform(robot,newPose,'L4');
+%     show(robot,newPose, 'PreservePlot', true,'Frames','off');
+%     hold on
+%     pause(0.01);
+%     % robot.plot(theta(idx));
+% end
+% hold off
+% %% save workspace in terms of 3D points and save the ik solutions
+% 
+% save('ikLookup.mat','ikLookup');
+% save('ARbot_workspace.mat','corrected_workspace');
 
 %% Functions
 
