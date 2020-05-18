@@ -32,7 +32,7 @@ belt_w=1.1225;
 belt_spd=1.1295; % m/s
 belt_in_offset=[1.4 0 0];
 
-catch_line_dist = belt_l * 9.8/10; % distance from the bot belt to catch
+catch_line_dist = belt_l * 9.65/10; % distance from the bot belt to catch
 camera_frame_dist = 3; % distance from the camera frame to catch line
                                                   
 %% box parameters
@@ -63,12 +63,15 @@ bin_angle_offset = [110 180 0];
 box_xyz_pos_offset = [.5588 1.15 -0.37];
 box_xyz_angle_offset = [160 0 90];
 
+chute_pos_offset = [1.21285 .7 .1];
+chute_angle_offset = [70 180 180];
+
 belt_pos_offset = [1.135 -1.4 -.85];
 belt_angle_offset = [180 200 -90];
 %% Trajectory Parameters
 % camera_frame_dist is the distance from the camera
-P_B_CORG = [ -2.1757; 0.5588; -1.1856;];
-
+P_B_CORG = [    -2.5986;     0.5588;     -1.3395;];
+P_B_Catch = [ 0.2205; 0.5588; -0.3135];
 robot_base_to_camera_frame_rot = [   0.0000    0.9397   -0.3420;
                                    -1.0000    0.0000         0;
                                          0    0.3420    0.9397;];
@@ -83,30 +86,48 @@ P_C(:,3) = inch/2;  % z axis a half inch above the belt
 P_C(:,4) = 1; % append a column of ones for matrix transformation 
               % calculations
 
-% ikSols = load('ikLookup.mat');
-% workspace = load('ARbot_workspace.mat');
+% filtered variables
 
-% ikSols = ikSols.ikLookup;
-% workspace_points = workspace.corrected_workspace;
-% workspace_points(:,4) = 1;
+% workspace_filtered = load('ARbot_workspace_filtered.mat');
+% workspace_points = workspace_filtered.filtered_workspace;
+% workspace_ind = floor(length(workspace_points));
+% Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
+% Arc_Start =  workspace_points(1,:);
+% Arc_End =  workspace_points(workspace_ind,:);
+
+
+% corrected variables
+workspace = load('ARbot_workspace.mat');
+workspace_points = workspace.corrected_workspace;
+workspace_points(:,4) = [];
+ikSols = [];
+workspace_ind = floor(length(workspace_points));
+Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
+Arc_Start = workspace_points(1,:);
+Arc_End =  workspace_points(workspace_ind,:);
+
+% % test catching arc from camera frame
 
 %% Map targets and calculate ikSolutions
 % testing_array = [ 1.25 5 8 11];
 eeOrientation = deg2rad(-70);
 max_Catching_Time = 2;
 
-% [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
-% mapToCatchArc(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-% max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikSols);
-
+% uncomment to use the catching arc
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
-mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-max_Catching_Time,eeOrientation,camera_frame_dist);
+mapToCatchArc(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
+max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikSols);
 
-testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
+% uncomment to use the catching line
+% [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
+% mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
+% max_Catching_Time,eeOrientation,camera_frame_dist);
+
+% testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
 % time to execute the trajectories
 testing_array = timeToCatchLine - max_Catching_Time/2;
 inherent_Time_Delay = 0.2;
+
 % testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
 % ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)

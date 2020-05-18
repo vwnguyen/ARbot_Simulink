@@ -16,17 +16,11 @@ function [th] = inverseKineRBT(px,py,pz,phi)
 th = zeros(1,4);
 
 % ARBOT V2_Beta
-% L1=.227;
-% L2=.317;
-% L3=.343;
-% L4=.150;
-%pz=-pz+L3;
-
-% ARBOT V2_offset
-L1=.224;
+L1=.227;
 L2=.317;
 L3=.343;
 L4=.150;
+%pz=-pz+L3;
 
 th1=atan2(py,px);
 A=px-L4*cos(th1)*cos(phi);
