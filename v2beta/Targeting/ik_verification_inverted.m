@@ -122,16 +122,11 @@ newPose(2).JointPosition = ikSolCorn2(2);
 newPose(3).JointPosition = ikSolCorn2(3);
 newPose(4).JointPosition = ikSolCorn2(4);
 show(robot,newPose, 'PreservePlot', true,'Frames','off');
-
-
-
-
 %% Functions
 
 function rot_z = rotz(ang)
-
     rot_z = [ cosd(ang) -sind(ang) 0;
-    sin(ang) cos(ang) 0 ;
+    sind(ang) cosd(ang) 0 ;
     0 0 1;];
 end
 
