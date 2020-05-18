@@ -63,6 +63,9 @@ bin_angle_offset = [110 180 0];
 box_xyz_pos_offset = [.5588 1.15 -0.37];
 box_xyz_angle_offset = [160 0 90];
 
+chute_pos_offset = [1.21285 .7 .1];
+chute_angle_offset = [70 180 180];
+
 belt_pos_offset = [1.135 -1.4 -.85];
 belt_angle_offset = [180 200 -90];
 %% Trajectory Parameters
@@ -110,12 +113,12 @@ Arc_End =  workspace_points(workspace_ind,:);
 eeOrientation = deg2rad(-70);
 max_Catching_Time = 2;
 
+% uncomment to use the catching arc
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArc(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikSols);
 
-
-
+% uncomment to use the catching line
 % [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 % mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 % max_Catching_Time,eeOrientation,camera_frame_dist);
@@ -124,6 +127,7 @@ max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikSols);
 % time to execute the trajectories
 testing_array = timeToCatchLine - max_Catching_Time/2;
 inherent_Time_Delay = 0.2;
+
 % testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
 % ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)
