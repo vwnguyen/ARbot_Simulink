@@ -23,8 +23,14 @@ eeBody.Inertia = [0 0 0 0 0 0];
 setFixedTransform(eeBody.Joint,trvec2tform([eeOffset 0 0]));
 figure(1);
 addBody(robot,eeBody,'L4');
-
-axes=show(robot); 
+pose = robot.homeConfiguration;
+pose(1).JointPosition = pi/4;
+pose(2).JointPosition = pi/4;
+pose(3).JointPosition = pi/4;
+pose(4).JointPosition = pi/4;
+grid off
+show(robot,pose,'PreservePlot', true,'Frames','off');
+grid off
 %smimport('Arbot_Rev2_1.urdf');
 
 %%

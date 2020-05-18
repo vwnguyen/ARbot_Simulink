@@ -68,7 +68,7 @@ belt_angle_offset = [180 200 -90];
 %% Trajectory Parameters
 % camera_frame_dist is the distance from the camera
 P_B_CORG = [    -2.5986;     0.5588;     -1.3395;];
-
+P_B_Catch = [ 0.2205; 0.5588; -0.3135];
 robot_base_to_camera_frame_rot = [   0.0000    0.9397   -0.3420;
                                    -1.0000    0.0000         0;
                                          0    0.3420    0.9397;];
@@ -83,12 +83,27 @@ P_C(:,3) = inch/2;  % z axis a half inch above the belt
 P_C(:,4) = 1; % append a column of ones for matrix transformation 
               % calculations
 
-ikSols = load('ikLookup.mat');
-workspace = load('ARbot_workspace.mat');
+% filtered variables
 
-ikSols = ikSols.ikLookup;
+% workspace_filtered = load('ARbot_workspace_filtered.mat');
+% workspace_points = workspace_filtered.filtered_workspace;
+% workspace_ind = floor(length(workspace_points));
+% Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
+% Arc_Start =  workspace_points(1,:);
+% Arc_End =  workspace_points(workspace_ind,:);
+
+
+% corrected variables
+workspace = load('ARbot_workspace.mat');
 workspace_points = workspace.corrected_workspace;
-workspace_points(:,4) = 1;
+workspace_points(:,4) = [];
+ikSols = [];
+workspace_ind = floor(length(workspace_points));
+Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
+Arc_Start = workspace_points(1,:);
+Arc_End =  workspace_points(workspace_ind,:);
+
+% % test catching arc from camera frame
 
 %% Map targets and calculate ikSolutions
 % testing_array = [ 1.25 5 8 11];
@@ -99,11 +114,13 @@ max_Catching_Time = 2;
 mapToCatchArc(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikSols);
 
+
+
 % [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 % mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 % max_Catching_Time,eeOrientation,camera_frame_dist);
 
-testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
+% testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
 % time to execute the trajectories
 testing_array = timeToCatchLine - max_Catching_Time/2;
 inherent_Time_Delay = 0.2;
