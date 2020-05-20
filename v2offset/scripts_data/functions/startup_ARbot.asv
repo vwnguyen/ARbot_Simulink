@@ -124,9 +124,7 @@ eeOrientation = deg2rad(-70);
 max_Catching_Time = 2;
 
 initial_joints = [deg2rad(85) pi/4 pi/4 pi/4];
-deposit_joint_angle = initial_joints(1) - 0.00025;
-
-
+deposit_joint_angle = initial_joints(1) - 0.0005;
 % uncomment to use the catching arc iterative
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
