@@ -1,6 +1,7 @@
 %% Environment Parameters
 
-load('footage_v3_array.mat');
+% load('footage_v3_array.mat');
+load('user_inputs.mat')
 box_dim1 = [.05 .05 .05];
 out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
@@ -29,15 +30,7 @@ Variables needed by the ARbot simulink file
 belt_l=30;
 belt_h=.2;
 belt_w=1.1225;
-
-belt_spd=1.1295; % m/s 29/30 sec
-% belt_spd=2; % m/s 49/30 sec 1.6046 m
-% belt_spd=1.75; % m/s 43/30 sec 1.2291 m
-% belt_spd=1.5; % m/s 37/30 sec  0.9029 m 
-% belt_spd=1.25; % m/s 31/30 sec 0.6269 m
-% belt_spd=1; % m/s 25/30 sec 0.4020 m
-% belt_spd=0.75; % m/s 19/30 sec 0.2256 m 
-% belt_spd=0.5; % m/s 13/30 sec 0.1002 m
+belt_spd=1.1295; % m/s
 belt_in_offset=[1.4 0 0];
 
 catch_line_dist = belt_l * 9.65/10; % distance from the bot belt to catch
@@ -50,11 +43,11 @@ box_z_offset = -0.1547 + inch/2;
 % 0.0254 is an inch
 
 % position vectors of the box with reference to the camera frame
-box1_pos_offset = [(box1_dim(1)/2 + (belt_w - 0.606314102578163) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset ]; %time 0
-box2_pos_offset = [(box2_dim(1)/2 + (belt_w - 0.272408337676525) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.4226) - (belt_spd*(2.66666666666664)) ) box_z_offset ]; % time 2.667
-box3_pos_offset = [(box3_dim(1)/2 + (belt_w - 0.617604686427116) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4572) - (belt_spd*(7.66666666666666)) ) box_z_offset ]; % time 7.667
-box4_pos_offset = [(box4_dim(1)/2 + (belt_w - 0.855067375230789) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659 + 0.4353) - (belt_spd*(10.7333333333335))) box_z_offset ]; % time 10.733
-box5_pos_offset = [(box5_dim(1)/2 + (belt_w - 0.683449123024940) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4270) - (belt_spd*(16.2000000000004)) ) box_z_offset ]; % time 16.200
+box1_pos_offset = [(box1_dim(1)/2 + (belt_w - box_positions(1,1)) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset ]; %time 0
+box2_pos_offset = [(box2_dim(1)/2 + (belt_w - box_positions(2,1)) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.4226) - (belt_spd*(2.66666666666664)) ) box_z_offset ]; % time 2.667
+box3_pos_offset = [(box3_dim(1)/2 + (belt_w - box_positions(3,1)) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4572) - (belt_spd*(7.66666666666666)) ) box_z_offset ]; % time 7.667
+box4_pos_offset = [(box4_dim(1)/2 + (belt_w - box_positions(4,1)) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659 + 0.4353) - (belt_spd*(10.7333333333335))) box_z_offset ]; % time 10.733
+box5_pos_offset = [(box5_dim(1)/2 + (belt_w - box_positions(5,1)) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4270) - (belt_spd*(16.2000000000004)) ) box_z_offset ]; % time 16.200
 
 shelf_pos_offset = [1.1811 1 -0.3255];
 shelf_angle_offset = [90 20 90];
