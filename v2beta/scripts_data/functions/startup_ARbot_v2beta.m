@@ -30,11 +30,14 @@ belt_l=30;
 belt_h=.2;
 belt_w=1.1225;
 
-belt_spd=1.1295; % m/s 29/30 sec
+
+
+
 % belt_spd=2; % m/s 49/30 sec 1.6046 m
 % belt_spd=1.75; % m/s 43/30 sec 1.2291 m
 % belt_spd=1.5; % m/s 37/30 sec  0.9029 m 
 % belt_spd=1.25; % m/s 31/30 sec 0.6269 m
+belt_spd=1.1295; % m/s 29/30 sec 0.5453 m
 % belt_spd=1; % m/s 25/30 sec 0.4020 m
 % belt_spd=0.75; % m/s 19/30 sec 0.2256 m 
 % belt_spd=0.5; % m/s 13/30 sec 0.1002 m
