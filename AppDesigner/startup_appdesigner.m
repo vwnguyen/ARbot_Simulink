@@ -1,14 +1,15 @@
+%% Load in parameters
+load('user_inputs.mat');
+
 %% Environment Parameters
-box_dim1 = [.05 .05 .05];
-out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
 
 % box parameters
-box1_dim = [0.170036163091660 0.182921404933929 0.0254/2];
-box2_dim = [0.184457923913002 0.172139129447937 0.0254/2];
-box3_dim = [0.055932275152206 0.103630726337433 0.0254/2];
-box4_dim = [0.110056496906281 0.147900141429901 0.0254/2];
-box5_dim = [0.121905452680588 0.165243265843391 0.0254/2];
+box1_dim = [box_dim(1,1) box_dim(1,2) 0.0254/2];
+box2_dim = [box_dim(2,1) box_dim(2,2) 0.0254/2];
+box3_dim = [box_dim(3,1) box_dim(3,2) 0.0254/2];
+box4_dim = [box_dim(4,1) box_dim(4,2) 0.0254/2];
+box5_dim = [box_dim(5,1) box_dim(5,2) 0.0254/2];
 cube_d =.09; % 2inch cube
 cube_con_rsph=.003; % radius of contact sphere block and belt
 
@@ -39,12 +40,14 @@ box_angle_offset = [20 0 0]; % vector of xyz angle rotations from world to box
 box_z_offset = -0.1547 + inch/2;
 % 0.0254 is an inch
 
+box_positions = correct_positions(box_positions, box1_dim, box2_dim, box3_dim, box4_dim, box5_dim);
 % position vectors of the box with reference to the camera frame
-box1_pos_offset = [(box1_dim(1)/2 + (belt_w - 0.606314102578163) ) (box1_dim(2)/2 + (belt_w - 0.761613922548294) ) box_z_offset ]; %time 0
-box2_pos_offset = [(box2_dim(1)/2 + (belt_w - 0.272408337676525) ) (box2_dim(2)/2 + (belt_w - 1.07917752695084 + 0.4226) - (belt_spd*(2.66666666666664)) ) box_z_offset ]; % time 2.667
-box3_pos_offset = [(box3_dim(1)/2 + (belt_w - 0.617604686427116) ) (box3_dim(2)/2 + (belt_w - 0.982776597929001 + 0.4572) - (belt_spd*(7.66666666666666)) ) box_z_offset ]; % time 7.667
-box4_pos_offset = [(box4_dim(1)/2 + (belt_w - 0.855067375230789) ) (box4_dim(2)/2 + (belt_w - 1.02983778786659 + 0.4353) - (belt_spd*(10.7333333333335))) box_z_offset ]; % time 10.733
-box5_pos_offset = [(box5_dim(1)/2 + (belt_w - 0.683449123024940) ) (box5_dim(2)/2 + (belt_w - 0.107290405601263 + 0.4270) - (belt_spd*(16.2000000000004)) ) box_z_offset ]; % time 16.200
+box1_pos_offset = [(box1_dim(1)/2 + box_positions(1,1)) (box1_dim(2)/2 - box_positions(1,2))  box_z_offset] 
+box2_pos_offset = [(box2_dim(1)/2 + box_positions(2,1)) (box2_dim(2)/2 - box_positions(2,2))  box_z_offset] 
+box3_pos_offset = [(box3_dim(1)/2 + box_positions(3,1)) (box3_dim(2)/2 - box_positions(3,2))  box_z_offset] 
+box4_pos_offset = [(box4_dim(1)/2 + box_positions(4,1)) (box4_dim(2)/2 - box_positions(4,2))  box_z_offset] 
+box5_pos_offset = [(box5_dim(1)/2 + box_positions(5,1)) (box5_dim(2)/2 - box_positions(5,2))  box_z_offset] 
+
 
 shelf_pos_offset = [1.1811 1 -0.3255];
 shelf_angle_offset = [90 20 90];
@@ -147,7 +150,7 @@ max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup);
 acceleration_Time_Delay = 0.3;
 testing_array = timeToCatchLine - max_Catching_Time/2 + acceleration_Time_Delay;
 
-%% 
+%% Functions
 
 % correct_positions(): depending on the position that the box is placed at,
 % we always want the box within the belt. Because the centroids are in the
@@ -156,19 +159,19 @@ testing_array = timeToCatchLine - max_Catching_Time/2 + acceleration_Time_Delay;
 % function will correct for this corner case
 function final_positions = correct_positions(positions, box1, box2, box3, box4, box5)
     width = 1.1225; % m
-    if positions(1,1) > (width - box1(1)/2)
+    if positions(1,1) > (width - box1(1))
         positions(1,1) = positions(1,1)-box1(1)/2;
     end
-    if positions(2,1) > (width - box2(1)/2)
+    if positions(2,1) > (width - box2(1))
         positions(2,1) = positions(2,1)-box2(1)/2;
     end
-    if positions(3,1) > (width - box3(1)/2)
+    if positions(3,1) > (width - box3(1))
         positions(3,1) = positions(3,1)-box3(1)/2;
     end
-    if positions(4,1) > (width - box4(1)/2)
+    if positions(4,1) > (width - box4(1))
         positions(4,1) = positions(4,1)-box4(1)/2;
     end
-    if positions(5,1) > (width - box5(1)/2)
+    if positions(5,1) > (width - box5(1))
         positions(5,1) = positions(5,1)-box5(1)/2;
     end
     final_positions = positions;
