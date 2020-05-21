@@ -23,6 +23,12 @@ inch = 0.0254;
 Variables needed by the ARbot simulink file
 %}
 
+%% Suction Parameters
+attraction_stiffness = -1e6
+attraction_damp = 1e-4
+frame_sep = 0.05
+deadzone = 1
+
 %% Conveyor Belt Parameters
 belt_l=30;
 belt_h=.2;
