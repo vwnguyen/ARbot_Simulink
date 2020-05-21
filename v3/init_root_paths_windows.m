@@ -1,4 +1,4 @@
-% Usage: change your current working directory to the \v2offset folder
+% Usage: change your current working directory to the \v3 folder
 % then run this script, which adds all necessary paths.
 
 % get current working directory
