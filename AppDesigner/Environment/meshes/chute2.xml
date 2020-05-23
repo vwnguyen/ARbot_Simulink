@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<SimscapeMultibodyImportXML version="2.0" xmlns="urn:mathworks:SimscapeMultibody:import" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Created by="" on="05/09/20||12:47:04" using="Simscape Multibody Link Version 7.0" from="SolidWorks 26.3.0"/>
+<ModelUnits mass="kilogram" length="inch"/>
+<DataUnits mass="kilogram" length="meter"/>
+<RootAssembly name="chute2" uid="chute2" version="107">
+<AssemblyFile name="chute2.SLDASM" type="SolidWorks Assembly"/>
+<InstanceTree>
+<Instance name="chute2-1" uid="chute2-1" grounded="true" entityUid="chute2*:*Default">
+<Transform>
+<Rotation>1 0 0 0 1 0 0 0 1</Rotation>
+<Translation>0.14853819401904839 0.20872203699134928 0.34940188439926556</Translation>
+</Transform>
+</Instance>
+</InstanceTree>
+<Constraints>
+</Constraints>
+</RootAssembly>
+<Assemblies>
+</Assemblies>
+<Parts>
+<Part name="chute2" uid="chute2*:*Default" version="379">
+<ModelUnits mass="kilogram" length="inch"/>
+<PartFile name="chute2.SLDPRT" type="SolidWorks Part"/>
+<MassProperties>
+<Mass>28.135214068800874</Mass>
+<CenterOfMass>0.24828184651299889 0.02785316460454635 0.31749895466355743</CenterOfMass>
+<Inertia>2.4936100133949761 2.4103029092187396 1.4195996149993253 3.3696651744477462e-05 -2.996327540986628e-05 0.052194653754975964</Inertia>
+</MassProperties>
+<GeometryFile name="chute2_Default_sldprt.STEP" type="STEP"/>
+<VisualProperties>
+<Ambient r="0.792156862745098" g="0.81960784313725488" b="0.93333333333333335" a="1"/>
+<Diffuse r="0.792156862745098" g="0.81960784313725488" b="0.93333333333333335" a="1"/>
+<Specular r="0.396078431372549" g="0.40980392156862744" b="0.46666666666666667" a="1"/>
+<Emissive r="0" g="0" b="0" a="1"/>
+<Shininess>0.40000000596046448</Shininess>
+</VisualProperties>
+</Part>
+</Parts>
+</SimscapeMultibodyImportXML>
