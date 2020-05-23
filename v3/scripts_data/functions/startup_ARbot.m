@@ -24,10 +24,10 @@ Variables needed by the ARbot simulink file
 %}
 
 %% Suction Parameters
-attraction_stiffness = -1e6
-attraction_damp = 1e-4
-frame_sep = 0.05
-deadzone = 1
+attraction_stiffness = -1e6;
+attraction_damp = 1e-4;
+frame_sep = 0.05;
+deadzone = 1;
 
 %% Conveyor Belt Parameters
 belt_l=30;
@@ -99,23 +99,37 @@ P_C(:,4) = 1; % append a column of ones for matrix transformation
 % Arc_Start =  workspace_points(1,:);
 % Arc_End =  workspace_points(workspace_ind,:);
 
+% uncomment for workspace without offset (goes directly to belt)
+% workspace variables iterative
+% workspace = load('ARbot_workspace_iterative.mat');
+% ikSols = load('ikLookupiterative.mat');
+% workspace_points = workspace.P_A;
+% sizeOfWorkspace = size(workspace_points);
+% if sizeOfWorkspace(2) > 3
+%     workspace_points(:,4) = [];
+% end
+% ikLookup = ikSols.ikLookup;
 
-% corrected variables iterative
-workspace = load('ARbot_workspace_iterative.mat');
-ikSols = load('ikLookupiterative.mat');
+% uncomment for workspace with offset and perpendicular
+workspace = load('ARbot_workspace_iterative_P_A.mat');
+ikSols = load('ikLookupiterativeP_A.mat');
 workspace_points = workspace.P_A;
 sizeOfWorkspace = size(workspace_points);
 if sizeOfWorkspace(2) > 3
     workspace_points(:,4) = [];
 end
-
-safe_via_point = [ -0.5558/2; -0.2512; 0.1; ];
-J1_safe_angle = rad2deg(2.4125) - 90;
-J1_safe_angle = deg2rad(J1_safe_angle);
-
-safe_via_angles = [ J1_safe_angle 1.0675 1.9424 1.0930 ];
-
 ikLookup = ikSols.ikLookup;
+% ikLookup(:,1) = ikLookup(:,1) + pi/2; % correct the ikSols to match workspace
+
+
+% safe via point for intermediate trajectories
+safe_via_point = [ -0.5558/2; -0.2512; 0.1; ];
+
+safe_via_angles = [ 2.0027    0.9535    1.3824    0.7694] ;
+J1_safe_angle = rad2deg(safe_via_angles(1)) - 90;
+J1_safe_angle = deg2rad(J1_safe_angle);
+safe_via_angles(1) = J1_safe_angle;
+
 % ikLookup(:,4) = ikLookup(:,4)*-1; 
 workspace_ind = floor(length(workspace_points));
 Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
