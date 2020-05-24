@@ -5,7 +5,7 @@
 cwd = pwd;
 % append necessary folder strings to cwd
 Environment = append(cwd,'\Environment');
-Workspace = append(cwd,'\workspace_points');
+% Workspace = append(cwd,'\workspace_points');
 Scripts_Data = append(cwd,'\scripts_data');
 
 addpath(genpath(Environment));
