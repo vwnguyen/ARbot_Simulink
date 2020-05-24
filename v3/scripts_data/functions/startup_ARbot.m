@@ -24,10 +24,10 @@ Variables needed by the ARbot simulink file
 %}
 
 %% Suction Parameters
-attraction_stiffness = -1e6
-attraction_damp = 1e-4
-frame_sep = 0.05
-deadzone = 1
+attraction_stiffness = -1e6;
+attraction_damp = 1e-4;
+frame_sep = 0.05;
+deadzone = 1;
 
 %% Conveyor Belt Parameters
 belt_l=30;
@@ -91,36 +91,45 @@ P_C(:,4) = 1; % append a column of ones for matrix transformation
               % calculations
               
 % filtered variables
-
-% workspace_filtered = load('ARbot_workspace_filtered.mat');
-% workspace_points = workspace_filtered.filtered_workspace;
+% workspace_filtered = load('ARbot_workspace_iterative_filtered.mat');
+% ikSols = load('ikLookupIterativeFiltered.mat');
+% workspace_points = workspace_filtered.P_A;
 % workspace_ind = floor(length(workspace_points));
 % Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
 % Arc_Start =  workspace_points(1,:);
 % Arc_End =  workspace_points(workspace_ind,:);
+% sizeOfWorkspace = size(workspace_points);
+% if sizeOfWorkspace(2) > 3
+%     workspace_points(:,4) = [];
+% end
+% ikLookup = ikSols.ikLookup;
 
+% uncomment for workspace without offset (goes directly to belt)
+% workspace variables iterative
+% workspace = load('ARbot_workspace_iterative_P_A.mat');
+% ikSols = load('ikLookupiterativeP_A.mat');
+% workspace_points = workspace.P_A;
+% sizeOfWorkspace = size(workspace_points);
+% if sizeOfWorkspace(2) > 3
+%     workspace_points(:,4) = [];
+% end
+% ikLookup = ikSols.ikLookup;
 
-% corrected variables iterative
-workspace = load('ARbot_workspace_iterative.mat');
-ikSols = load('ikLookupiterative.mat');
+% uncomment for workspace with offset and perpendicular
+workspace = load('ARbot_workspace_iterative_P_A_const.mat');
+ikSols = load('ikLookupiterativeP_A_const.mat');
 workspace_points = workspace.P_A;
 sizeOfWorkspace = size(workspace_points);
 if sizeOfWorkspace(2) > 3
     workspace_points(:,4) = [];
 end
-
-safe_via_point = [ -0.5558/2; -0.2512; 0.1; ];
-J1_safe_angle = rad2deg(2.4125) - 90;
-J1_safe_angle = deg2rad(J1_safe_angle);
-
-safe_via_angles = [ J1_safe_angle 1.0675 1.9424 1.0930 ];
-
 ikLookup = ikSols.ikLookup;
-% ikLookup(:,4) = ikLookup(:,4)*-1; 
-workspace_ind = floor(length(workspace_points));
-Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
-Arc_Start = workspace_points(1,:);
-Arc_End =  workspace_points(workspace_ind,:);
+
+% safe via point for intermediate trajectories
+safe_via_angles = [ 2.0027    0.9535    1.3824    0.7694] ;
+J1_safe_angle = rad2deg(safe_via_angles(1)) - 90;
+J1_safe_angle = deg2rad(J1_safe_angle);
+safe_via_angles(1) = J1_safe_angle;
 
 % % test catching arc from camera frame
 
@@ -132,27 +141,13 @@ max_Catching_Time = 2;
 initial_joints = [deg2rad(85) pi/4 pi/4 pi/4];
 deposit_joint_angle = initial_joints(1) - 0.00025;
 
-
 % uncomment to use the catching arc iterative
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup);
 
-% % uncomment to use the catching arc
-% [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
-% mapToCatchArc(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-% max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikSols);
-
-% uncomment to use the catching line
-% [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
-% mapToCatchLineSim(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-% max_Catching_Time,eeOrientation,camera_frame_dist);
-
-% testing_array =[ 0 2.6670 7.6670 10.7330 16.2000];  % when targets are spotted at the camera frame
-% time to execute the trajectories
 acceleration_Time_Delay = 0.3;
 testing_array = timeToCatchLine - max_Catching_Time/2 + acceleration_Time_Delay;
-
 
 % testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
