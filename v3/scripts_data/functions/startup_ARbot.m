@@ -24,8 +24,8 @@ Variables needed by the ARbot simulink file
 %}
 
 %% Suction Parameters
-attraction_stiffness = -1e6;
-attraction_damp = 1e-4;
+attraction_stiffness = -1e5;
+attraction_damp = 10;
 frame_sep = 0.05;
 deadzone = 1;
 
