@@ -62,13 +62,11 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchAr
     
     % append initial target to the time array
     timeToCatchLine = [timeToCatchLine timeToCatchLine_unfiltered];
-    prevIdx = 1;
+    id
     for i = 2:length(timeToCatchLine_unfiltered)
-        deltaT = timeToCatchLine_unfiltered(i) - timeToCatchLine(prevIdx)
-        if deltaT <= max_Catching_Time
-            timeToCatchLine = [timeToCatchLine timeToCatchLine_unfiltered(i)];
+        if timeToCatchLine_unfiltered(i) 
+            
         end
-        prevIdx = prevIdx + 1;
     end
     
 end

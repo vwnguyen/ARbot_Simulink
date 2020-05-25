@@ -30,15 +30,7 @@ deadzone = 1;
 belt_l=30;
 belt_h=.2;
 belt_w=1.1225;
-% belt_spd=1.1295; % m/s\
-belt_spd = 2;
-inherentCPUCost = 0.15;
-
-% belt spds 0.5 -> 1.5 
-% inherentCPUCOST = 0.7
-% belt spds 1.75 -> 2 
-% inherentCPUCOST = 0.15
-
+belt_spd=1.1295; % m/s
 belt_in_offset=[1.4 0 0];
 
 catch_line_dist = belt_l * 9.65/10; % distance from the bot belt to catch
@@ -97,13 +89,36 @@ P_C(:,4) = 1; % append a column of ones for matrix transformation
               % calculations
               
 dynamic_offset_parameters = load('fitted_coefficients.mat');
-distances = dynamic_offset_parameters.distances; 
+
+distance_offsets = dynamic_offset_parameters.distances; 
 acc_times = dynamic_offset_parameters.acc_times; 
 spds = dynamic_offset_parameters.spds; 
-% plot(spds,distances);
-% hold on          
-d1_function_coeff = dynamic_offset_parameters.d1_function_coeff;
-t1_function_coeff = dynamic_offset_parameters.t1_function_coeff;
+              
+
+% filtered variables
+% workspace_filtered = load('ARbot_workspace_iterative_filtered.mat');
+% ikSols = load('ikLookupIterativeFiltered.mat');
+% workspace_points = workspace_filtered.P_A;
+% workspace_ind = floor(length(workspace_points));
+% Arc_Midpoint = workspace_points(floor(workspace_ind/2),:);
+% Arc_Start =  workspace_points(1,:);
+% Arc_End =  workspace_points(workspace_ind,:);
+% sizeOfWorkspace = size(workspace_points);
+% if sizeOfWorkspace(2) > 3
+%     workspace_points(:,4) = [];
+% end
+% ikLookup = ikSols.ikLookup;
+
+% uncomment for workspace without offset (goes directly to belt)
+% workspace variables iterative
+% workspace = load('ARbot_workspace_iterative_P_A.mat');
+% ikSols = load('ikLookupiterativeP_A.mat');
+% workspace_points = workspace.P_A;
+% sizeOfWorkspace = size(workspace_points);
+% if sizeOfWorkspace(2) > 3
+%     workspace_points(:,4) = [];
+% end
+% ikLookup = ikSols.ikLookup;
 
 % uncomment for workspace with offset and perpendicular
 workspace = load('ARbot_workspace_iterative_P_A_const.mat');
@@ -134,10 +149,10 @@ deposit_joint_angle = initial_joints(1) - 0.00025;
 % uncomment to use the catching arc iterative
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup,...
-d1_function_coeff,t1_function_coeff);
+max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup);
 
-testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost;
+acceleration_Time_Delay = 0.3;
+testing_array = timeToCatchLine - max_Catching_Time/2 + acceleration_Time_Delay;
 
 % testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
 
