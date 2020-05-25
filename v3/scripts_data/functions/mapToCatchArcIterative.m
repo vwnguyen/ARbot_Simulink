@@ -12,7 +12,7 @@
 % Outputs: 
 % catching coordinates = an array with time of arrival
 
-function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchArc(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch,catching_arc,ikSols,time_coeff,dist_coeff)
+function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchArcIterative(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch,catching_arc,ikSols,time_coeff,dist_coeff)
 
     % get the number of targets 
     target_Size = size(P_C);
@@ -46,8 +46,7 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchAr
         target_xf = P_W(closeIndexFinal,2);
         target_xo = P_C(i,2);
         [ distanceToCatchLine(i) timeToCatchLine_unfiltered(i)]= ...
-             calculateToA(target_xo,target_xf,time_coeff,dist_coeff,...
-             belt_rate);
+             calculateToA(target_xo,target_xf,time_coeff,dist_coeff,belt_rate);
         
         
         % physically move the target to the catching arc

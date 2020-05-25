@@ -30,10 +30,8 @@ deadzone = 1; %1
 belt_l=30;
 belt_h=.2;
 belt_w=1.1225;
-% belt_spd=1.1295; % m/s\
-belt_spd = 2;
-inherentCPUCost = 0.15;
 
+% load in belt_spd, inherentCPUCost
 % belt spds 0.5 -> 1.5 
 % inherentCPUCOST = 0.7
 % belt spds 1.75 -> 2 
