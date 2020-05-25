@@ -135,8 +135,4 @@ mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup,...
 d1_function_coeff,t1_function_coeff);
 
-testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost;
-
-% testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
-
-% ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)
+testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost
