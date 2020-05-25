@@ -9,7 +9,7 @@ Environment = append(cwd,'/Environment');
 Scripts_Data = append(cwd,'/scripts_data');
 
 addpath(genpath(Environment));
-addpath(genpath(Workspace));
+% addpath(genpath(Workspace));
 addpath(genpath(Scripts_Data));
 
 % IF YOU NEED TO CHANGE VISUALS
