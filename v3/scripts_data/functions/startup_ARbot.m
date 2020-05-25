@@ -21,10 +21,10 @@ pix_2_m = 0.21875*0.0254; % pix->in->m
 inch = 0.0254;
 
 %% Suction Parameters
-attraction_stiffness = -1e5;
-attraction_damp = 10;
-frame_sep = 0.05;
-deadzone = 1;
+attraction_stiffness = -1e5; %-1e5
+attraction_damp = 10; % 10
+frame_sep = 0.05; %0.05
+deadzone = 1; %1
 
 %% Conveyor Belt Parameters
 belt_l=30;
