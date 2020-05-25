@@ -12,7 +12,7 @@
 % Outputs: 
 % catching coordinates = an array with time of arrival
 
-function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchArc(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch,catching_arc,ikSols)
+function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchArcIterative(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch,catching_arc,ikSols,time_coeff,dist_coeff)
 
     % get the number of targets 
     target_Size = size(P_C);
@@ -33,7 +33,7 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchAr
     end
     
     P_Final = [];
-    
+    timeToCatchLine = [];
     for i=1:target_Size(1)
         % map the targets from base into the camera frame
         % min value is the closest Y
@@ -41,8 +41,13 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchAr
         closeIndexFinal = closestIndex(1);
         
         % estimate distance and time to catching line
-        distanceToCatchLine(i) = P_W(closeIndexFinal,2) - P_C(i,2);
-        timeToCatchLine(i) = distanceToCatchLine(i) / belt_rate; 
+%         distanceToCatchLine(i) = P_W(closeIndexFinal,2) - P_C(i,2);
+%         timeToCatchLine(i) = distanceToCatchLine(i) / belt_rate; 
+        target_xf = P_W(closeIndexFinal,2);
+        target_xo = P_C(i,2);
+        [ distanceToCatchLine(i) timeToCatchLine_unfiltered(i)]= ...
+             calculateToA(target_xo,target_xf,time_coeff,dist_coeff,belt_rate);
+        
         
         % physically move the target to the catching arc
         P_Final(i,1) = P_W(closeIndexFinal,1);
@@ -53,5 +58,16 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchAr
 
         ikSol(i,:) = ikSols(closeIndexFinal,:);
     end
-
+    
+    % append initial target to the time array
+    timeToCatchLine = [timeToCatchLine timeToCatchLine_unfiltered];
+    prevIdx = 1;
+    for i = 2:length(timeToCatchLine_unfiltered)
+        deltaT = timeToCatchLine_unfiltered(i) - timeToCatchLine(prevIdx)
+        if deltaT <= max_Catching_Time
+            timeToCatchLine = [timeToCatchLine timeToCatchLine_unfiltered(i)];
+        end
+        prevIdx = prevIdx + 1;
+    end
+    
 end
