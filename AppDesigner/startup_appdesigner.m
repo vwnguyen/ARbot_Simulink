@@ -146,7 +146,7 @@ testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost;
 % more than that and the box is in the gaurd or sticking out the belt. This
 % function will correct for this corner case
 function final_positions = correct_positions(positions, box1, box2, box3, box4, box5)
-    width = 1.1225; % m
+    width = 1.1225;% m
     if positions(1,1) > (width - box1(1)/2)
         positions(1,1) = positions(1,1)-box1(1);
     end
