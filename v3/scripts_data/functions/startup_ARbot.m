@@ -1,4 +1,5 @@
 %% Environment Parameters
+sampleTime = 0.04;
 box_dim1 = [.05 .05 .05];
 out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
@@ -21,8 +22,8 @@ pix_2_m = 0.21875*0.0254; % pix->in->m
 inch = 0.0254;
 
 %% Suction Parameters
-attraction_stiffness = -1e5; %-1e5
-attraction_damp = 10; % 10
+attraction_stiffness = -1e7; %-1e5
+attraction_damp = 0.001; % 10
 frame_sep = 0.05; %0.05
 deadzone = 1; %1
 
@@ -30,6 +31,9 @@ deadzone = 1; %1
 belt_l=30;
 belt_h=.2;
 belt_w=1.1225;
+
+belt_spd = 0.5;
+inherentCPUCost = 0.7;
 
 % load in belt_spd, inherentCPUCost
 % belt spds 0.5 -> 1.5 
@@ -129,10 +133,13 @@ max_Catching_Time = 2;
 initial_joints = [deg2rad(85) pi/4 pi/4 pi/4];
 deposit_joint_angle = initial_joints(1) - 0.00025;
 
-% uncomment to use the catching arc iterative
+% catch line 
+% [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = mapToCatchLineSim(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch)
+
+% % uncomment to use the catching arc iterative
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
 max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup,...
 d1_function_coeff,t1_function_coeff);
 
-testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost
+testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost;
