@@ -85,6 +85,5 @@ function [P_B  distanceToCatchLine timeToCatchLine ikSol P_C P_W] = mapToCatchAr
             timeToCatchLine = [timeToCatchLine timeToCatchLine_unfiltered(j)];
         end
     end
-
     
 end
