@@ -1,5 +1,13 @@
 %% Load in parameters
 load('user_inputs.mat');
+switch(spawn_location)
+    case 'Easy'
+        spawn_location = 1;
+   case 'Medium'
+        spawn_location = 2;  
+   case 'Hard'
+        spawn_location = 3;
+end
 
 %% Environment Parameters
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
