@@ -178,9 +178,6 @@ eeOrientation = deg2rad(-70);
 initial_joints = [deg2rad(80) 0 0 0];
 deposit_joint_angle = initial_joints(1) - 0.00025;
 
-% catch line 
-% [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = mapToCatchLineSim(P_B_CORG,P_C,belt_rate,rotation_matrix,max_Catching_Time,eeOrientation,dist_To_Catch)
-
 % % uncomment to use the catching arc iterative
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
