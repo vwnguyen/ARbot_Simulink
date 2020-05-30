@@ -3,10 +3,10 @@ clear all
 close all
 
 % Modify for your own path %
-parent = '..\Targeting';
-environment = '..\Environment';
-addpath(genpath(parent));
-addpath(genpath(environment));
+% parent = '..\Targeting';
+% environment = '..\Environment';
+% addpath(genpath(parent));
+% addpath(genpath(environment));
 
 robot=importrobot('Arbot_Rev2_1.urdf');
 
