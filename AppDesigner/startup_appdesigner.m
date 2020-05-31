@@ -82,18 +82,75 @@ chute_angle_offset = [70 180 180];
 belt_pos_offset = [1.135 -1.4 -.85];
 belt_angle_offset = [180 200 -90];
 %% Trajectory Parameters
+% max_Catching_Time = 1; % 0.5, 1, 2
+picks_per_minute = (1/max_Catching_Time) * 60;
+resolution_of_trajectory = 50;
+sampleTime = max_Catching_Time / resolution_of_trajectory;
+queue_ISR_sample_time = 0.1;
+
+% default belt speed 1.1295
+% belt_spd = 1.1295;
+% inherentCPUCost = 0.72;
+
+% max catch time = 2
+% queue_ISR_sample_time = 0.1;
+% 30 PPM CPU COSTS
+% load in belt_spd
+% belt spds 0.5 -> 1.5 
+% inherentCPUCOST = 0.7
+% belt spds 1.75 -> 2
+% inherentCPUCOST = 0.15
+
+% max catch time = 1
+% queue_ISR_sample_time = 0.1;
+% 60 PPM CPU COSTS
+% load in belt_spd
+% belt spds 0.5 
+% inherentCPUCOST = 0.7
+% belt spds 1
+% inherentCPUCOST = 0.72
+% belt spds 1.25
+% inherentCPUCOST = 0.6
+% belt spds 1.5
+% inherentCPUCOST = 0.4
+% belt spds 1.75
+% inherentCPUCOST = 0.2
+% belt spds 2
+% inherentCPUCOST = 0
+
+% max catch time = 0.5
+% queue_ISR_sample_time = 0.1;
+% 120 PPM CPU COSTS
+% belt spds 0.5 
+% inherentCPUCOST = 0.72
+% belt spds 0.75
+% inherentCPUCOST = 0.815
+% belt spds 1
+% inherentCPUCOST = 0.68
+% belt spds 1.25
+% inherentCPUCOST = 0.68
+% belt spds 1.5 
+% inherentCPUCOST = 0.36
+% belt spds 1.75 
+% inherentCPUCOST = 0.15
+% belt spds 2 
+% inherentCPUCOST = 0
+
 % camera_frame_dist is the distance from the camera
 P_B_CORG = [    -2.5986;     0.5588;     -1.3395;];
 P_B_Catch = [ 0.2205; 0.5588; -0.3135];
+
 robot_base_to_camera_frame_rot = [   0.0000    0.9397   -0.3420;
                                    -1.0000    0.0000         0;
                                          0    0.3420    0.9397;];
+
 P_C =           [box1_pos_offset; 
                  box2_pos_offset; 
                  box3_pos_offset;
                  box4_pos_offset;
                  box5_pos_offset];
              
+numTargets = length(P_C);
 
 P_C(:,3) = inch/2;  % z axis a half inch above the belt
 P_C(:,4) = 1; % append a column of ones for matrix transformation 
@@ -127,24 +184,27 @@ safe_via_angles(1) = J1_safe_angle;
 % % test catching arc from camera frame
 
 %% Map targets and calculate ikSolutions
-% testing_array = [ 1.25 5 8 11];
 eeOrientation = deg2rad(-70);
-max_Catching_Time = 2;
-
-initial_joints = [deg2rad(85) pi/4 pi/4 pi/4];
+initial_joints = [deg2rad(80) 0 0 0];
 deposit_joint_angle = initial_joints(1) - 0.00025;
 
-% uncomment to use the catching arc iterative
+% % uncomment to use the catching arc iterative
 [P_B  distanceToCatchLine timeToCatchLine ikSol P_C] = ...
 mapToCatchArcIterative(P_B_CORG,P_C,belt_spd,robot_base_to_camera_frame_rot, ...
-max_Catching_Time,eeOrientation,camera_frame_dist,workspace_points,ikLookup,...
+max_Catching_Time,camera_frame_dist,workspace_points,ikLookup,...
 d1_function_coeff,t1_function_coeff);
 
-testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost;
+testing_array = timeToCatchLine - max_Catching_Time/2 + inherentCPUCost
 
-% testing_array = [ 2.68 5.27 10.19 13.3 18.02 ] - max_Catching_Time/2 - inherent_Time_Delay; 
+% if the arm CANNOT attain those targets, append to testing_array, and
+% ikSols, to accomodate stateflow 
 
-% ikSol = inverseKineRBT(P_B(1,1),P_B(1,2),P_B(1,3),eeOrientation)
+if length(testing_array) < numTargets 
+    for i = length(testing_array):(numTargets-1)
+        testing_array = [ testing_array 100 ]; % append an impossible time
+        % ikSol = [ ikSol; initial_joints]; % iksol already been sovled for
+    end
+end
 
 %% Functions
 
