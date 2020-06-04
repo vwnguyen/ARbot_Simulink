@@ -1,5 +1,4 @@
 %% Environment Parameters
-
 box_dim1 = [.05 .05 .05];
 out_length = 0;
 rotation_matrix = [4.44089209850063e-16,0.939692620785909,-0.342020143325669;-1.00000000000000,4.44089209850063e-16,0;0,0.342020143325669,0.939692620785909];
@@ -20,6 +19,8 @@ floor_d=.05;
 % pixels to meters
 pix_2_m = 0.21875*0.0254; % pix->in->m
 inch = 0.0254;
+
+belt_spd = 1;
 
 %% Suction Parameters
 attraction_stiffness = -1e7; %-1e5
@@ -72,14 +73,14 @@ belt_pos_offset = [1.135 -1.4 -.85];
 belt_angle_offset = [180 200 -90];
 
 %% Trajectory Parameters
-max_Catching_Time = 1; % 0.5, 1, 2
+max_Catching_Time = 0.5; % 0.5, 1, 2
 picks_per_minute = (1/max_Catching_Time) * 60;
 resolution_of_trajectory = 50;
 sampleTime = max_Catching_Time / resolution_of_trajectory;
 queue_ISR_sample_time = 0.1;
 
 % default belt speed 1.1295
-belt_spd = 1.1295;
+% belt_spd = 2;
 inherentCPUCost = 0.72;
 
 % max catch time = 2
